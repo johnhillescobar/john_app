@@ -170,7 +170,7 @@ export default function ApiKeysDashboard() {
                                 <div className="text-xs text-gray-500">Powered by <span className="font-semibold">Tadata</span></div>
                             </div>
                             <p className="mt-2 text-sm text-gray-600">
-                                Your expert is a specialized agent, always up to date with MyApp's latest documentation and best practices. To be used in AI-native IDEs to accurately implement and test MyApp tools within your application.
+                                Your expert is a specialized agent, always up to date with MyApp&apos;s latest documentation and best practices. To be used in AI-native IDEs to accurately implement and test MyApp tools within your application.
                             </p>
                             <div className="mt-4">
                                 <button className="bg-blue-500 text-white text-sm font-medium rounded-md px-4 py-2 hover:bg-blue-600 transition-colors duration-200">

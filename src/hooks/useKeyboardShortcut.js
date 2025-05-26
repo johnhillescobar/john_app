@@ -1,33 +1,25 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 export default function useKeyboardShortcut(key, callback, modifiers = []) {
+    const handleKeyPress = useCallback((event) => {
+        const modifiersPressed = modifiers.every(modifier => {
+            if (modifier === 'ctrl') return event.ctrlKey;
+            if (modifier === 'shift') return event.shiftKey;
+            if (modifier === 'alt') return event.altKey;
+            if (modifier === 'meta') return event.metaKey;
+            return false;
+        });
+
+        if (event.key.toLowerCase() === key.toLowerCase() && modifiersPressed) {
+            event.preventDefault();
+            callback();
+        }
+    }, [key, callback, modifiers]);
+
     useEffect(() => {
-        const handleKeyDown = (event) => {
-            const keyMatches = event.key.toLowerCase() === key.toLowerCase();
-            const modifiersMatch = modifiers.every(modifier => {
-                switch (modifier) {
-                    case 'ctrl':
-                        return event.ctrlKey;
-                    case 'shift':
-                        return event.shiftKey;
-                    case 'alt':
-                        return event.altKey;
-                    case 'meta':
-                        return event.metaKey;
-                    default:
-                        return false;
-                }
-            });
-
-            if (keyMatches && modifiersMatch) {
-                event.preventDefault();
-                callback();
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [key, callback, JSON.stringify(modifiers)]);
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [handleKeyPress]);
 } 

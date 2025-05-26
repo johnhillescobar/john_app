@@ -14,7 +14,7 @@ export default function ProtectedPage() {
                     You have successfully accessed the protected content with a valid API key.
                 </p>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                    <h2 className="text-lg font-semibold mb-2">What's Next?</h2>
+                    <h2 className="text-lg font-semibold mb-2">What&apos;s Next?</h2>
                     <ul className="list-disc list-inside space-y-2 text-gray-600">
                         <li>Explore the API documentation</li>
                         <li>Test different API endpoints</li>

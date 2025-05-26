@@ -11,6 +11,8 @@ export default function CreateKeyModal({ onClose, onKeyCreated, onCopy, createdK
     const [newKeyLimit, setNewKeyLimit] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
     const [error, setError] = useState(null);
+    const [isOpen, setIsOpen] = useState(true);
+    const [shouldCopyAndClose, setShouldCopyAndClose] = useState(false);
 
     // Handle escape key to close modal
     useEffect(() => {
@@ -70,6 +72,20 @@ export default function CreateKeyModal({ onClose, onKeyCreated, onCopy, createdK
         window.addEventListener('keydown', handleCopy);
         return () => window.removeEventListener('keydown', handleCopy);
     }, [createdKey]);
+
+    // Add handleCreateKey to the dependency array
+    useEffect(() => {
+        if (isOpen && !createdKey) {
+            handleCreateKey();
+        }
+    }, [isOpen, createdKey, handleCreateKey]);
+
+    // Add handleCopyAndClose to the dependency array
+    useEffect(() => {
+        if (shouldCopyAndClose) {
+            handleCopyAndClose();
+        }
+    }, [shouldCopyAndClose, handleCopyAndClose]);
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
