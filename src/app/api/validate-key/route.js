@@ -15,10 +15,19 @@ export async function POST(request) {
         // Query Supabase to check if the API key exists
         const { data: apiKeyData, error } = await supabase
             .from('api_keys')
-            .select('id, key, type')
+            .select('id, key, type, usage')
             .eq('key', apiKey)
             .single();
 
+        // Handle the case when no API key is found (PGRST116 error)
+        if (error?.code === 'PGRST116') {
+            return NextResponse.json({
+                valid: false,
+                error: 'Invalid API Key'
+            });
+        }
+
+        // Handle other database errors
         if (error) {
             console.error('Supabase query error:', error);
             return NextResponse.json(
@@ -34,7 +43,7 @@ export async function POST(request) {
             // Increment the usage counter
             const { error: updateError } = await supabase
                 .from('api_keys')
-                .update({ usage: apiKeyData.usage + 1 })
+                .update({ usage: (apiKeyData.usage || 0) + 1 })
                 .eq('id', apiKeyData.id);
 
             if (updateError) {
