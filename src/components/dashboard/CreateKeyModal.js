@@ -73,20 +73,6 @@ export default function CreateKeyModal({ onClose, onKeyCreated, onCopy, createdK
         return () => window.removeEventListener('keydown', handleCopy);
     }, [createdKey]);
 
-    // Add handleCreateKey to the dependency array
-    useEffect(() => {
-        if (isOpen && !createdKey) {
-            handleCreateKey();
-        }
-    }, [isOpen, createdKey, handleCreateKey]);
-
-    // Add handleCopyAndClose to the dependency array
-    useEffect(() => {
-        if (shouldCopyAndClose) {
-            handleCopyAndClose();
-        }
-    }, [shouldCopyAndClose, handleCopyAndClose]);
-
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg p-6 max-w-md w-full">
