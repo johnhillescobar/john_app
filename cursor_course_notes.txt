@@ -1,0 +1,176 @@
+# Lecture 23. Prompt 1
+I want you create a button that will to /dashboards that will be dashboard for managing api keys. It will have a UI for CRUD API for API keys
+
+# Lecture 24. Prompt 1
+I want you to implement an UI for CRUD for managing user API Keys
+
+# Lecture 24. Prompt 2
+(After pasting Tavily image)
+I like this this design, make it like this
+
+# Lecture 24. Prompt 3
+(After pasting Tavily image with the API box)
+Make when clickng "create" open a modal like this.
+
+# Lecture 24. Prompt 4
+(After pasting Tavily image with the API box)
+Make when clickng the eye icon to show the API key
+
+# Create Supabase project
+Supabase
+project name: dandi
+password: BKQuKBE6bTM*Ud!
+
+# Lecture 25. Prompt 1
+I want you help me connect this CRUD API to a real database which is hosted on supabase
+
+
+# Lecture 26. SQL Queries
+
+Run this directly on supabase
+-- Enable RLS
+ALTER TABLE api_keys ENABLE ROW LEVEL SECURITY;
+
+-- Policy for SELECT (read) operations
+CREATE POLICY "Enable read access for all users" ON api_keys
+    FOR SELECT USING (true);
+
+-- Policy for INSERT operations
+CREATE POLICY "Enable insert access for all users" ON api_keys
+    FOR INSERT WITH CHECK (true);
+
+-- Policy for UPDATE operations
+CREATE POLICY "Enable update access for all users" ON api_keys
+    FOR UPDATE USING (true);
+
+-- Policy for DELETE operations
+CREATE POLICY "Enable delete access for all users" ON api_keys
+    FOR DELETE USING (true);
+	
+# Lecture 28. Prompt 1
+I want you to add functionality to copy to clipboard theve value of the API key
+
+
+# Lecture 29. Prompt 2
+Cool! this is working. I want you now to add popups when I create and delete API keys
+
+# Lecture 30. Prompt 1
+I want you to help me refactor my code.
+
+The file @page.js is chunky. It has a lof of logic in it, it has also the dashboard component and also the CRUD API fetching from supabase. I want to split this logic so the code is more maintainable.
+
+Please, refactor the code.
+
+# Lecture 31. Prompt 1
+I want you in the @Sidebar.js when clicking on "API Playground" to go into a new page /playground where it will have a form to submit an API key.
+
+When submitting the form it will go to /protected and there will be validate that this is indeed a valid API key. If it is we will notifiy with @Notification.js a green popup with "Valid Api Key, /protected can be accessed".
+
+If API key is not valid will pop up a red a popu that will say "Invalid API Key".
+
+Write everything in .js
+
+
+# Lecture 31. Prompt 2
+Supabase query error: {
+  code: 'PGRST116',
+  details: 'The result contains 0 rows',
+  hint: null,
+  message: 'JSON object requested, multiple (or no) rows returned'
+}
+
+When getting this error this means that we didn't find any API key, so we should notifiy the API Key is invalid
+
+
+# Lecture 31. Prompt 3
+---CONTEXT---- I took two screenshots of the Network with the 200 message and the API payload.
+
+Then I runt the following prompts
+
+With the first screenshot: show me the corresponding CURL command.
+
+The answer would look like this:
+
+```
+curl -X POST "http://localhost:3000/api/validate-key" \
+-H "Accept: */*" \
+-H "Accept-Encoding: gzip, deflate, br, zstd" \
+-H "Accept-Language: en-US,en;q=0.9,es-VE;q=0.8,es-MX;q=0.7,es;q=0.6" \
+-H "Connection: keep-alive" \
+-H "Content-Type: application/json" \
+-H "Content-Length: 66" \
+-H "Cookie: ajs_anonymous_id=f171c042-5e8d-4b2a-8186-9b6ed18bfb79; _next_hmr_refresh_hash_=21" \
+-H "Host: localhost:3000" \
+-H "Origin: http://localhost:3000" \
+-H "Referer: http://localhost:3000/playground" \
+-H "Sec-Ch-Ua: \"Chromium\";v=\"136\", \"Microsoft Edge\";v=\"136\", \"Not-A/Brand\";v=\"99\"" \
+-H "Sec-Ch-Ua-Mobile: ?0" \
+-H "Sec-Ch-Ua-Platform: \"Windows\"" \
+-H "Sec-Fetch-Dest: empty" \
+-H "Sec-Fetch-Mode: cors" \
+-d '{"apiKey": "your-api-key-here"}'
+```
+
+With the second screenshot: The payload looks like this
+
+The answer would look like this:
+
+```
+curl -X POST "http://localhost:3000/api/validate-key" \
+-H "Content-Type: application/json" \
+-d '{"apiKey": "test_b78124283a418906984d9ea8d248eefa529f337fd7b04051"}'
+
+```
+
+Nonetheless, I needed to run the proper command in Powershell to work properly. This was what I got:
+
+Invoke-WebRequest -Method POST -Uri "http://localhost:3000/api/validate-key" -Headers @{"Content-Type"="application/json"} -Body '{"apiKey": "live_d84d3a1bac287bb344a76e5ea15a8960b1233c7609db3e08"}'
+
+# Lecture 35
+
+How can you switch from npm to yarn?
+
+# Lecture 37 - Prompt 1
+create a new API endpoint that will be a /api/github-summarizer
+
+it will have the same implementation as @route.js that will validate the api key 
+
+# Lecture 37 - Prompt 2
+get apiKey from x-api-key header
+
+# Lecture 37 - Prompt 3
+Implement a function that will get the readme.md content of the githubUrl
+
+
+# Lecture 38 - Prompt 1
+Generate a langchain chain from @Langchain-JS that will get the prompt of "Summarize this github repository from this readme file context" then inject getGitHubReadme to the prompt.
+
+The chain will invoke an llm and structure the output to an object with field "summary" which will be a string and "cool_facts" which will be a list of strings
+
+# Lecture 38 - Prompt 2
+Make the structured output strict with a schema
+
+
+
+
+
+
+
+
+
+I need to control error of a Stremalit app that creates synthetic data with a LLM generated script that is run in subprocess and then stored in a folder.
+
+There are four functions that create and run the input generation python script and output file generation. These are the functions:
+
+1. write_script_function that uses GPT-4.1 to create a message containing the script as a text that is generated between two script tags
+
+2. create_script_function that takes the text and process the text message to turn it into a python script that is saved in a folder called "scripts"
+
+3. run_script_function that runs the file and save the outcome dataframe  as .csv file in a folder called "wip"
+
+4. validate_csv_function that takes the wip dataframe and run validations against a template and save the outcome into a "outcome" folder
+
+The process sometimes fail as the suggested script can be faulty. My current functions order doesn't not have a mechanism to handle this.
+I want the script to handle the error by going back to the first function to run this back from scratch for up to 5 times.
+
+Please, suggest the code in python.
